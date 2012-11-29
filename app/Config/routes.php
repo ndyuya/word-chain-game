@@ -20,16 +20,9 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-/**
- * Here, we are connecting '/' (base path) to controller called 'Pages',
- * its action called 'display', and we pass a param to select the view file
- * to use (in this case, /app/View/Pages/home.ctp)...
- */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
-/**
- * ...and connect the rest of 'Pages' controller's urls.
- */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+	Router::connect('/', array('controller' => 'games', 'action' => 'index'));
+    Router::connect('/games/create', array('controller' => 'games', 'action' => 'create'));
+    Router::connect('/games/answer/:id', array('controller' => 'games', 'action' => 'answer'), array('pass' => array('id'), 'id' => '[0-9]+'));
 
 /**
  * Load all plugin routes.  See the CakePlugin documentation on 

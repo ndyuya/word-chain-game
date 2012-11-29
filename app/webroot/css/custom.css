@@ -1,0 +1,7 @@
+div.error input {
+    border-color: #B94A48;
+    background-color: #F2DEDE;
+}
+div.error div.error-message {
+    color: #B94A48;
+}
