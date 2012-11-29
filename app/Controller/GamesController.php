@@ -12,8 +12,8 @@ class GamesController extends AppController {
     public function beforeFilter() {
         App::import('Vendor', 'facebook/src/facebook');
         $this->facebook = new Facebook(array(
-            'appId' => '383868478362748',
-            'secret' => '09c77e2b36762f9f143352600e81138a',
+            'appId' => Configure::read('Facebook.appId'),
+            'secret' => Configure::read('Facebook.secret'),
             'cookie' => true,
         ));
         $this->fb_user = $this->facebook->getUser();
