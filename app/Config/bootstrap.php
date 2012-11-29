@@ -180,5 +180,7 @@ CakeLog::config('error', array(
 	'file' => 'error',
 ));
 
-Configure::write('Facebook.apiId', '');
+Configure::write('Facebook.appId', '');
+Configure::write('Facebook.appUrl', '');
 Configure::write('Facebook.secret', '');
+Configure::write('Facebook.scope', '');

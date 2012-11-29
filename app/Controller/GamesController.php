@@ -5,6 +5,7 @@ App::uses('AppController', 'Controller');
 class GamesController extends AppController {
 
 	public $uses = array('Game','Word');
+    public $components = array('RequestHandler');
     public $facebook;
     public $fb_user;
     public $fb_user_name;
@@ -18,8 +19,11 @@ class GamesController extends AppController {
         ));
         $this->fb_user = $this->facebook->getUser();
 
-        if(empty($this->fb_user)) {
-            $this->redirect($this->facebook->getLoginUrl());
+        if($this->RequestHandler->isGet() || empty($this->fb_user)) {
+            $this->redirect($this->facebook->getLoginUrl(array(
+                'scope' => Configure::read('Facebook.scope'),
+                'redirect_uri' => Configure::read('Facebook.appUrl')
+            )));
         } else {
             $fb_user_info = $this->facebook->api('/'.$this->fb_user);
             $this->fb_user_name = $fb_user_info['name'];
