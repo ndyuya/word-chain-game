@@ -30,5 +30,10 @@
 		<div id="footer">
 		</div>
 	</div>
+    <script>
+    if(self == top){
+      top.window.location = '<?php echo $app_url; ?>';
+    }
+    </script>
 </body>
 </html>
