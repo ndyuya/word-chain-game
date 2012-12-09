@@ -16,8 +16,23 @@ class Word extends AppModel {
                 'rule' => 'wordChain',
                 'message' => '「しりとり」が成立していません'
             ),
+            'rule3' => array(
+                'rule' => 'repeat',
+                'message' => '同じ言葉を繰り返し回答に使うことはできません'
+            ),
         )
     );
+
+    public function beforeSave() {
+
+        if(preg_match('/^ん$/u', mb_substr($this->data['Word']['pronunciation'], -1, 1, 'UTF-8')) === 1) {
+            App::import('Model', 'Game');
+            $game = new Game();
+            $game->save(array('id' => $this->data['Word']['game_id'], 'is_active' => false), false, array('is_active'));
+        }
+
+        return parent::beforeSave();
+    }
 
     public function wordChain($pronunciation) {
         $last_answer = $this->find('first', array('conditions' => array('Word.game_id' => $this->data['Word']['game_id']), 'order' => 'Word.turn DESC'));
@@ -28,6 +43,15 @@ class Word extends AppModel {
 
         if(mb_substr($this->data['Word']['pronunciation'], 0, 1, 'UTF-8') !== mb_substr($last_answer['Word']['pronunciation'], -1, 1, 'UTF-8')) {
             $this->lastErrorMessage = '「しりとり」が成立していません';
+            return false;
+        }
+
+        return true;
+    }
+
+    public function repeat($repeat) {
+        $repeat_answer_count = $this->find('count', array('conditions' => array('Word.pronunciation' => $this->data['Word']['pronunciation'])));
+        if($repeat_answer_count > 0) {
             return false;
         }
 

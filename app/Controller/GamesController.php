@@ -58,13 +58,11 @@ class GamesController extends AppController {
             }
         }
 
-        $this->Game->id = $game_id;
-        $turn = $this->Game->field('word_count');
+        $game = $this->Game->find('first', array('conditions' => array('Game.id' => $game_id)));
 
         $words = $this->Word->find('all', array('conditions' => array('Word.game_id' => $game_id), 'order' => 'Word.turn'));
 
-        $this->set('game_id', $game_id);
-        $this->set('turn', $turn + 1);
+        $this->set('game', $game);
         $this->set('words', $words);
     }
 }
